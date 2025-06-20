@@ -1,0 +1,123 @@
+name: support_tickets
+description: Model used to gain insights into the support tickets
+tables:
+    - name: SUPPORT_TICKETS
+      base_table:
+          database: KAMESH_MCP_DEMO
+          schema: DATA
+          table: SUPPORT_TICKETS
+      dimensions:
+          - name: TICKET_ID
+            expr: TICKET_ID
+            data_type: VARCHAR(60)
+            sample_values:
+                - TR483
+                - TR7250
+                - TR3944
+            description: Unique identifier for a support ticket.
+            synonyms:
+                - case_id
+                - request_id
+                - support_request_number
+                - incident_number
+                - issue_id
+                - service_ticket_number
+          - name: CUSTOMER_NAME
+            expr: CUSTOMER_NAME
+            data_type: VARCHAR(60)
+            sample_values:
+                - Ryan
+                - Gregory
+                - Bruce
+            description: The name of the customer who submitted the support ticket.
+            synonyms:
+                - client_name
+                - customer_full_name
+                - account_holder
+                - account_name
+                - client_full_name
+                - customer_title
+                - account_owner
+          - name: CUSTOMER_EMAIL
+            expr: CUSTOMER_EMAIL
+            data_type: VARCHAR(60)
+            sample_values:
+                - Gregory.G@keyboard.com
+                - Linda.M@phone.com
+                - Nicole.C@notebook.com
+            description: The email address of the customer who submitted the support ticket.
+            synonyms:
+                - email_address
+                - customer_contact_email
+                - email_id
+                - user_email
+                - client_email
+                - contact_email
+          - name: SERVICE_TYPE
+            expr: SERVICE_TYPE
+            data_type: VARCHAR(60)
+            sample_values:
+                - Business Internet
+                - Cellular
+                - Home Internet
+            description:
+                The type of service the support ticket is related to, such as internet or cellular services for either
+                business or residential customers.
+            synonyms:
+                - service_category
+                - service_name
+                - service_offering
+                - service_option
+                - service_selection
+                - product_type
+                - product_category
+                - support_type
+          - name: REQUEST
+            expr: REQUEST
+            data_type: VARCHAR(16777216)
+            sample_values:
+                - I noticed a $90 fee for international roaming on my bill from my trip to Africa. These charges were
+                  unexpected and not clearly explained. Please issue a refund.
+                - Hello, I hope this message finds you well. I am requesting the closure of my account under my email
+                  effective June 2024. I have been satisfied with the services but will no longer require them. Please
+                  confirm receipt and inform me if there are any further steps to take. Thank you for your prompt
+                  attention.
+                - I recently went on a vacation to the UK and was charged an additional $105 for "international
+                  transaction" and "currency conversion" fees. These charges were not communicated to me, and I request
+                  a detailed breakdown and a refund. Thank you for your prompt attention to this matter.
+            description:
+                The REQUEST column contains the text of customer support requests, including descriptions of issues,
+                complaints, or inquiries, as well as specific actions or resolutions being requested from the support
+                team.
+            synonyms:
+                - inquiry
+                - query
+                - appeal
+                - petition
+                - application
+                - submission
+                - proposal
+                - ask
+          - name: CONTACT_PREFERENCE
+            expr: CONTACT_PREFERENCE
+            data_type: VARCHAR(60)
+            sample_values:
+                - Email
+                - Text Message
+            description:
+                The preferred method of communication for the customer to receive support updates and notifications.
+            synonyms:
+                - preferred_contact_method
+                - contact_choice
+                - communication_preference
+                - preferred_communication_channel
+                - contact_option
+verified_queries:
+    - name: support ticket breakdown by service type
+      question: Can you show me a breakdown of customer support tickets by service type - cellular vs business internet?
+      use_as_onboarding_question: false
+      sql:
+          SELECT service_type, COUNT(ticket_id) AS ticket_count FROM support_tickets GROUP BY service_type ORDER BY
+          ticket_count DESC NULLS LAST
+      verified_by: Kamesh Sampath
+      verified_at: 1749740746
